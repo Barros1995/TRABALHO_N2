@@ -852,11 +852,10 @@ ul li a:active{
     left: 52%;
     border-radius: 14px;
     background-color: white;
-    
     box-sizing: border-box;
 
 }
-.retangulo4 input[type="number"]
+.retangulo4 input[type="text"]
 {
     width: 100%; 
     height: 100%; 

@@ -1,3 +1,10 @@
+<?php
+ require_once './actions/config.php';
+     $sql = "SELECT * FROM usuarios";
+     $stmt = $conn->query($sql);
+     $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
      <head>
@@ -11,10 +18,19 @@
          <link rel="preconnect" href="https://fonts.googleapis.com">
          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
          <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
-          
+         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
      </head>
-     <body>  
-          <div class="container">
+     <body>
+     <?php
+        
+        $mensagem = "Seus dados foram enviados com sucesso!";
+
+     ?>
+
+         <div id="mensagem-sucesso"><?php echo $mensagem; ?></div>
+
+         <div class="container">
              <div class="header">
 
                  <div class="logo" ></div>
@@ -160,7 +176,7 @@
                    
                </div>
           </div>
-          <form  method="post">
+          <form  id="meuFormulario" action="./actions/fomularios.php" method="post">
                <div class="out-lates">
                     <div class="retangulo3"></div>
 
@@ -168,7 +184,7 @@
                          <span>Agendar consulta</span>
                     </div>
                     <div class="base-bnt3">
-                         <button type="submit" class="bnt3">Enviar</button>
+                         <button type="submit"  id="botaoEnviar" class="bnt3" >Enviar</button>
                     </div>
                          
                </div>
@@ -180,10 +196,10 @@
                </div>
                
                <div class="retangulo4">      
-                         <input type="number" placeholder="Insira apenas números...">
-
+                         <input type="text" name="cpf" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" placeholder="999.999.999-99"> 
+                         
                          </input>
-                    </div>
+               </div>
 
                <div class="quadro2">
                     <div class="text-24">
@@ -191,7 +207,7 @@
                     </div>
                </div>
                <div class="retangulo5">
-                         <input type="text" placeholder>
+                         <input type="text" name ="nome" placeholder>
 
                          </input>
                </div>
@@ -201,7 +217,7 @@
                     </div>
                </div>
                <div class="retangulo6">
-                         <input type="email" placeholder>
+                         <input type="email" name ="email" placeholder>
 
                        
                </div>
@@ -212,7 +228,7 @@
                </div>
 
                <div class="retangulo7"> 
-                         <input type="date" placeholder>
+                         <input type="date" name ="calendario" placeholder>
                        
                     </div>      
                     
@@ -222,7 +238,7 @@
                          </div>
                </div>
                <div class="retangulo8"> 
-                         <input type="tel" placeholder="(xx) xxxx-xxxx">
+                         <input type="tel" name="telefone" placeholder="(xx) xxxx-xxxx">
                          
                     </div>   
                     <div class="quadro6">
@@ -231,13 +247,11 @@
                          </div>
                     </div>
                     <div class="retangulo9">
-                         <input type="time" placeholder>
-
-                         
+                         <input type="time" name="horario" placeholder>    
                     </div>
                         
                </div>
-               
+              
           </form>
           <div class="footer-2">
                <div class="element3">
@@ -306,6 +320,76 @@
                                  
           </div>
           
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+          <script>
+          document.addEventListener('DOMContentLoaded', function() {
+                  var botaoEnviar = document.getElementById('botaoEnviar');
+                  var formulario = document.getElementById('meuFormulario');
+
+                  botaoEnviar.addEventListener('click', function(e) {
+                   e.preventDefault();
+
+                  Swal.fire({
+                       title: 'Você tem certeza?',
+                       text: "Você não poderá reverter isso!",
+                       icon: 'warning',
+                       showCancelButton: true,
+                       confirmButtonColor: '#3085d6',
+                       cancelButtonColor: '#d33',
+                       confirmButtonText: 'Sim, enviar agora!'
+               }).then((result) => {
+                 if (result.isConfirmed) {
+                         formulario.submit(); 
+
+                    Swal.fire({
+                       title: 'Dados enviados com sucesso!',
+                       text: 'Seus dados foram registrados no banco de dados.',
+                       icon: 'success',
+                       showCancelButton: true,
+                       allowOutsideClick: false              
+                                         
+                    });
+
+                     }
+               });
+
+              });
+           });  
+          </script> 
+
+          <script>
+          document.addEventListener('DOMContentLoaded', function() {
+          var mensagemSucesso = document.getElementById('mensagem-sucesso');
+
+          if (mensagemSucesso) {
+               Swal.fire({
+                    title: 'Dados enviados com sucesso!',
+                    text: 'Seus dados foram registrados no banco de dados.',
+                    icon: 'success',
+                    showCancelButton: true,
+                    allowOutsideClick: false,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonText: 'OK'
+               }).then((result) => {
+                    if (result.isConfirmed) {
+                         mensagemSucesso.innerHTML = '';
+                    } else if (result.isDismissed) {
+                         mensagemSucesso.innerHTML = '';
+                    }
+               });
+          }
+         });
+         </script>
+         
           
+
+          <script type="text/javascript">
+          window.onload = function() {
+             
+               window.open('listaConsultas.php', '_blank');
+          };
+          </script>
+
+              
      </body>
 </html>
