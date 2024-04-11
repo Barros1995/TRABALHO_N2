@@ -1,6 +1,6 @@
 ﻿#TRABALHO_N2
-## banco de dados
-
+## Banco de dados
+```sql
 CREATE TABLE `usuarios` (
   nome` varchar(100) NOT NULL,
   cpf` varchar(11) NOT NULL,
@@ -12,3 +12,4 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY ('id')
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
